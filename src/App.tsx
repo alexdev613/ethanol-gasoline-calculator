@@ -8,9 +8,16 @@ import logoImg from './assets/logo.png';
   E se o resultado for menor que 0.7 compensa usar o álcool.
 */
 
+interface InfoProps {
+  title: string;
+  gasolina: string | number;
+  alcool: string | number;
+}
+
 function App() {
   const [gasolinaInput, setGasolinaInput] = useState(0);
   const [alcoolInput, setAlcoolInput] = useState(0);
+  const [info, setInfo] = useState<InfoProps>();
 
   function calcular(event: FormEvent) {
     event.preventDefault();
@@ -19,9 +26,17 @@ function App() {
     console.log(calculo)
 
     if (calculo <= 0.7 ) {
-      alert("Compensa usar o álcool!");
+      setInfo({
+        title: "Compensa usar álcool!",
+        gasolina: "Gasolina R$ " + gasolinaInput,
+        alcool: "Álcool R$ " + alcoolInput,
+      })
     } else {
-      alert("Melhor usar a gasolina!")
+      setInfo({
+        title: "Compensa usar gasolina",
+        gasolina: "Gasolina R$ " + gasolinaInput,
+        alcool: "Álcool R$ " + alcoolInput,
+      })
     }
 
   }
@@ -67,10 +82,10 @@ function App() {
         </form>
 
         <section className='result'>
-          <h2 className='result-title'>Compensa usar álcool</h2>
+          <h2 className='result-title'>{info?.title}</h2>
 
-          <span>Álcool R$ 4,30</span>
-          <span>Gasolina R$ 5,10</span>
+          <span>{info?.gasolina}</span>
+          <span>{info?.alcool}</span>
 
         </section>
       </div>
