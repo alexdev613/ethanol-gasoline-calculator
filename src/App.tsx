@@ -1,15 +1,38 @@
+import { FormEvent, useState } from 'react';
 import './App.css'
 
 import logoImg from './assets/logo.png';
 
+/*
+  Cálculo: álcool / gasolina
+  E se o resultado for menor que 0.7 compensa usar o álcool.
+*/
+
 function App() {
+  const [gasolinaInput, setGasolinaInput] = useState(0);
+  const [alcoolInput, setAlcoolInput] = useState(0);
+
+  function calcular(event: FormEvent) {
+    event.preventDefault();
+
+    let calculo = (alcoolInput / gasolinaInput );
+    console.log(calculo)
+
+    if (calculo <= 0.7 ) {
+      alert("Compensa usar o álcool!");
+    } else {
+      alert("Melhor usar a gasolina!")
+    }
+
+  }
+
   return (
     <>
       <div className='container'>
         <img src={logoImg} alt="Logo da calculadora de gasolina e etanol" />
         <h1 className='title'>Qual melhor opção?</h1>
 
-        <form className='form'>
+        <form className='form' onSubmit={calcular} >
           <label htmlFor="ethanol">Álcool (preco por litro):</label>
           <input
             id='ethanol'
@@ -18,10 +41,12 @@ function App() {
             placeholder='4,90'
             min="1"
             step="0.01"
+            value={alcoolInput}
+            onChange={ (e) => setAlcoolInput(Number(e.target.value)) }
             required
           />
 
-          <label htmlFor="gasoline">Álcool (preco por litro):</label>
+          <label htmlFor="gasoline">Gasolina (preco por litro):</label>
           <input
             id='gasoline'
             className='input'
@@ -29,11 +54,25 @@ function App() {
             placeholder='4,90'
             min="1"
             step="0.01"
+            value={gasolinaInput}
+            onChange={ (e) => setGasolinaInput(Number(e.target.value)) }
             required
           />
 
-          <input type="submit" className='button' value="Calcular" />
+          <input
+            type="submit"
+            className='button'
+            value="Calcular"
+          />
         </form>
+
+        <section className='result'>
+          <h2 className='result-title'>Compensa usar álcool</h2>
+
+          <span>Álcool R$ 4,30</span>
+          <span>Gasolina R$ 5,10</span>
+
+        </section>
       </div>
       
     </>
