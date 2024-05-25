@@ -28,17 +28,26 @@ function App() {
     if (calculo <= 0.7 ) {
       setInfo({
         title: "Compensa usar álcool!",
-        gasolina: "Gasolina R$ " + gasolinaInput,
-        alcool: "Álcool R$ " + alcoolInput,
+        gasolina: formatarMoeda(gasolinaInput),
+        alcool: formatarMoeda(alcoolInput),
       })
     } else {
       setInfo({
         title: "Compensa usar gasolina",
-        gasolina: "Gasolina R$ " + gasolinaInput,
-        alcool: "Álcool R$ " + alcoolInput,
+        gasolina: formatarMoeda(gasolinaInput),
+        alcool: formatarMoeda(alcoolInput),
       })
     }
 
+  }
+
+  function formatarMoeda(valor: number) {
+    let valorFormatado = valor.toLocaleString("pt-br", {
+      style: "currency",
+      currency: "BRL",
+    })
+
+    return valorFormatado;
   }
 
   return (
@@ -81,13 +90,16 @@ function App() {
           />
         </form>
 
-        <section className='result'>
-          <h2 className='result-title'>{info?.title}</h2>
+        {info && Object.keys(info).length > 0 && (
+          <section className='result'>
+            <h2 className='result-title'>{info?.title}</h2>
 
-          <span>{info?.gasolina}</span>
-          <span>{info?.alcool}</span>
+            <span>{info?.gasolina}</span>
+            <span>{info?.alcool}</span>
 
-        </section>
+          </section>
+        )}
+
       </div>
       
     </>
